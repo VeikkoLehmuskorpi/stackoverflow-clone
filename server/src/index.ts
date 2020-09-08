@@ -6,23 +6,25 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import morgan from 'morgan';
 import cors from 'cors';
-import helmet from 'helmet';
-import { UserResolver } from './resolver/User';
+// import helmet from 'helmet';
+import { PostResolver } from './resolver/Post';
 
 dotenv.config();
 
 const main = async () => {
-  // const orm = await createConnection();
+  const orm = await createConnection();
 
   const app = express();
+  app.use(express.json());
   app.use(morgan('dev'));
   app.use(cors());
-  app.use(helmet());
+  // app.use(helmet());
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [PostResolver],
     }),
+    context: () => ({ orm }),
   });
 
   apolloServer.applyMiddleware({ app });
