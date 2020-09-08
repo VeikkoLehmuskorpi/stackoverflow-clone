@@ -11,10 +11,10 @@ export class PostResolver {
 
   @Query(() => Post, { nullable: true })
   post(
-    @Arg('uuid', () => String) uuid: string,
+    @Arg('uid', () => String) uid: string,
     @Ctx()
     { orm }: MyContext
   ): Promise<Post | undefined> {
-    return orm.manager.findOne(Post, { uuid });
+    return orm.manager.findOne(Post, { uid });
   }
 }

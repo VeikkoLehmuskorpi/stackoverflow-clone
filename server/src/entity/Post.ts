@@ -2,11 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  Generated,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
+import { nanoid } from '../utils';
 
 @ObjectType()
 @Entity()
@@ -15,9 +16,8 @@ export class Post {
   id: number;
 
   @Field()
-  @Column()
-  @Generated('uuid')
-  uuid: string;
+  @Column('varchar', { length: 11, nullable: false, unique: true })
+  uid: string;
 
   @Field()
   @Column('varchar', { length: 200 })
@@ -46,4 +46,9 @@ export class Post {
   @Field()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @BeforeInsert()
+  addUid() {
+    this.uid = nanoid();
+  }
 }
