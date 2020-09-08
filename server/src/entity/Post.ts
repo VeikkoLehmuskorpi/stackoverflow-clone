@@ -24,16 +24,20 @@ export class Post {
   title: string;
 
   @Field()
-  @Column()
+  @Column('text')
   content: string;
 
   @Field()
-  @Column()
+  @Column('double precision', { default: 0 })
   views: number;
 
   @Field()
-  @Column()
+  @Column({ default: false })
   isPublished: boolean;
+
+  @Field()
+  @Column({ default: false })
+  isEdited: boolean;
 
   @Field()
   @CreateDateColumn()

@@ -1,4 +1,4 @@
-import { Resolver, Query, Ctx } from 'type-graphql';
+import { Resolver, Query, Ctx, Arg } from 'type-graphql';
 import { Post } from '../entity/Post';
 import { MyContext } from '../types';
 
@@ -7,5 +7,14 @@ export class PostResolver {
   @Query(() => [Post])
   posts(@Ctx() { orm }: MyContext): Promise<Post[]> {
     return orm.manager.find(Post, {});
+  }
+
+  @Query(() => Post, { nullable: true })
+  post(
+    @Arg('uuid', () => String) uuid: string,
+    @Ctx()
+    { orm }: MyContext
+  ): Promise<Post | undefined> {
+    return orm.manager.findOne(Post, { uuid });
   }
 }
