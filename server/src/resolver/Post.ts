@@ -10,12 +10,18 @@ export class PostResolver {
   }
 
   @Query(() => Post, { nullable: true })
-  post(
+  async post(
     @Arg('uid', () => String) uid: string,
     @Ctx()
     { orm }: MyContext
-  ): Promise<Post | undefined> {
-    return orm.manager.findOne(Post, { uid });
+  ): Promise<Post> {
+    const post = await orm.manager.findOne(Post, { uid });
+
+    if (!post) {
+      throw new Error(`Post with the uid: ${uid} does not exist!`);
+    }
+
+    return post;
   }
 
   @Mutation(() => Post)
