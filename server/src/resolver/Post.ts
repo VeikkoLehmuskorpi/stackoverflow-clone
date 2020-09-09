@@ -28,4 +28,21 @@ export class PostResolver {
 
     return orm.manager.save(newPost);
   }
+
+  @Mutation(() => Post)
+  async updatePost(
+    @Arg('uid', () => String) uid: string,
+    @Arg('title', () => String) title: string,
+    @Arg('content', () => String) content: string,
+    @Ctx() { orm }: MyContext
+  ): Promise<Post> {
+    const post = await orm.manager.findOne(Post, { uid });
+
+    if (!post) {
+      throw new Error(`Post with the uid: ${uid} does not exist!`);
+    }
+
+    Object.assign(post, { title, content });
+    return orm.manager.save(post);
+  }
 }
