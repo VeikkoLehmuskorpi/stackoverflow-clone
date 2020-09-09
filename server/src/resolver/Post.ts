@@ -66,4 +66,24 @@ export class PostResolver {
       return orm.manager.save(post);
     }
   }
+
+  @Mutation(() => Boolean)
+  async deletePost(
+    @Arg('uid', () => String) uid: string,
+    @Ctx() { orm }: MyContext
+  ): Promise<Boolean> {
+    const post = await orm.manager.findOne(Post, { uid });
+
+    if (!post) {
+      throw new Error(`Post with the uid: ${uid} does not exist!`);
+    }
+
+    try {
+      await orm.manager.delete(Post, { uid });
+
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
 }
