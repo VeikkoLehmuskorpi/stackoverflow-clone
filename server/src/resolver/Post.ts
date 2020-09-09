@@ -1,4 +1,4 @@
-import { Resolver, Query, Ctx, Arg } from 'type-graphql';
+import { Resolver, Query, Ctx, Arg, Mutation } from 'type-graphql';
 import { Post } from '../entity/Post';
 import { MyContext } from '../types';
 
@@ -16,5 +16,16 @@ export class PostResolver {
     { orm }: MyContext
   ): Promise<Post | undefined> {
     return orm.manager.findOne(Post, { uid });
+  }
+
+  @Mutation(() => Post)
+  createPost(
+    @Arg('title', () => String) title: string,
+    @Arg('content', () => String) content: string,
+    @Ctx() { orm }: MyContext
+  ): Promise<Post> {
+    const newPost = orm.manager.create(Post, { title, content });
+
+    return orm.manager.save(newPost);
   }
 }
