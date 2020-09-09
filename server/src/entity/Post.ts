@@ -7,6 +7,7 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
+import { Length, IsNotEmpty, IsString } from 'class-validator';
 import { nanoid } from '../utils';
 
 @ObjectType()
@@ -20,10 +21,14 @@ export class Post {
   uid: string;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
   @Column('varchar', { length: 200 })
   title: string;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
   @Column('text')
   content: string;
 

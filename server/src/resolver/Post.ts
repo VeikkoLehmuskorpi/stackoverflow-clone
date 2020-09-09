@@ -1,6 +1,8 @@
 import { Resolver, Query, Ctx, Arg, Mutation } from 'type-graphql';
+import { UserInputError } from 'apollo-server-express';
 import { Post } from '../entity/Post';
 import { MyContext } from '../types';
+import { validateInputs } from '../utils';
 
 @Resolver()
 export class PostResolver {
@@ -25,14 +27,20 @@ export class PostResolver {
   }
 
   @Mutation(() => Post)
-  createPost(
+  async createPost(
     @Arg('title', () => String) title: string,
     @Arg('content', () => String) content: string,
     @Ctx() { orm }: MyContext
   ): Promise<Post> {
     const newPost = orm.manager.create(Post, { title, content });
 
-    return orm.manager.save(newPost);
+    const errors = await validateInputs(newPost);
+
+    if (errors.length) {
+      throw new UserInputError('Validation error!', { errors });
+    } else {
+      return orm.manager.save(newPost);
+    }
   }
 
   @Mutation(() => Post)
@@ -49,6 +57,13 @@ export class PostResolver {
     }
 
     Object.assign(post, { title, content });
-    return orm.manager.save(post);
+
+    const errors = await validateInputs(post);
+
+    if (errors.length) {
+      throw new UserInputError('Validation error!', { errors });
+    } else {
+      return orm.manager.save(post);
+    }
   }
 }
