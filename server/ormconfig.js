@@ -1,3 +1,5 @@
+const { __prod__ } = require('./build/constants');
+
 module.exports = {
   type: process.env.TYPEORM_TYPE,
   host: process.env.TYPEORM_HOST,
@@ -5,8 +7,8 @@ module.exports = {
   username: process.env.TYPEORM_USERNAME,
   password: process.env.TYPEORM_PASSWORD,
   database: process.env.TYPEORM_DATABASE,
-  synchronize: true,
-  logging: false,
+  synchronize: __prod__ ? false : true,
+  logging: __prod__ ? false : true,
   entities: ['build/entity/**/*.js'],
   migrations: ['build/migration/**/*.js'],
   subscribers: ['build/subscriber/**/*.js'],
