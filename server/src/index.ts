@@ -8,6 +8,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 // import helmet from 'helmet';
 import { PostResolver } from './resolver/Post';
+import { UserResolver } from './resolver/User';
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const main = async () => {
 
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [PostResolver],
+      resolvers: [PostResolver, UserResolver],
     }),
     context: () => ({ orm }),
   });
