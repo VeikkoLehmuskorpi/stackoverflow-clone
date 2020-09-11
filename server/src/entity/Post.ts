@@ -7,8 +7,8 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
-import { Length, IsNotEmpty, IsString } from 'class-validator';
-import { nanoid } from '../utils';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { generateUid } from '../utils';
 
 @ObjectType()
 @Entity()
@@ -54,6 +54,6 @@ export class Post {
 
   @BeforeInsert()
   addUid() {
-    this.uid = nanoid();
+    this.uid = generateUid();
   }
 }
