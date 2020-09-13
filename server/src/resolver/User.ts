@@ -59,6 +59,8 @@ export class UserResolver {
       throw new ApolloError('Something went wrong');
     }
 
+    // TODO: Add validation for cases where the user is trying to register with
+    // an email/username that's already in use
     return orm.manager.save(newUser);
   }
 
