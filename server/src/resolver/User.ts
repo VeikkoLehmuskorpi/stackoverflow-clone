@@ -17,13 +17,21 @@ class UserRegistrationInput {
   password: string;
 }
 
+@InputType()
+class UserLoginInput {
+  @Field()
+  email: string;
+
+  @Field()
+  password: string;
+}
+
 @Resolver()
 export class UserResolver {
   @Mutation(() => User)
   async register(
     @Arg('options') options: UserRegistrationInput,
-    @Ctx()
-    { orm }: MyContext
+    @Ctx() { orm }: MyContext
   ): Promise<User> {
     const { email, username, password } = options;
 
@@ -48,9 +56,36 @@ export class UserResolver {
       const hashedPassword = await argon2.hash(password);
       Object.assign(newUser, { password: hashedPassword });
     } catch (err) {
-      throw new ApolloError('Something went wrong.');
+      throw new ApolloError('Something went wrong');
     }
 
     return orm.manager.save(newUser);
+  }
+
+  @Mutation(() => User)
+  async login(
+    @Arg('options') options: UserLoginInput,
+    @Ctx() { orm }: MyContext
+  ): Promise<User> {
+    const { email, password: plaintextPassword } = options;
+
+    const user = await orm.manager.findOne(User, { email });
+
+    if (!user) {
+      throw new UserInputError(
+        'No user with the provided email address was found'
+      );
+    }
+
+    const isValidPassword = await argon2.verify(
+      user.password,
+      plaintextPassword
+    );
+
+    if (!isValidPassword) {
+      throw new UserInputError('Invalid credentials');
+    } else {
+      return user;
+    }
   }
 }
