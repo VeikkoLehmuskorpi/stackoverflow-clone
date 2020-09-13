@@ -67,7 +67,7 @@ export class UserResolver {
   @Mutation(() => User)
   async login(
     @Arg('options') options: UserLoginInput,
-    @Ctx() { orm }: MyContext
+    @Ctx() { orm, req }: MyContext
   ): Promise<User> {
     const { email, password: plaintextPassword } = options;
 
@@ -87,6 +87,9 @@ export class UserResolver {
     if (!isValidPassword) {
       throw new UserInputError('Invalid credentials');
     } else {
+      // Store user in the session
+      req.session!.userId = user.uid;
+
       return user;
     }
   }
