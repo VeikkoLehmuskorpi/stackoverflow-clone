@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import * as dotenv from 'dotenv';
+import * as dotenv from 'dotenv-flow';
 import { createConnection } from 'typeorm';
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
