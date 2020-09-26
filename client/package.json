@@ -11,6 +11,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ant-design/colors": "^4.0.5",
+    "@ant-design/icons": "^4.2.2",
     "antd": "^4.6.5",
     "next": "9.5.3",
     "react": "16.13.1",
