@@ -28,7 +28,12 @@ const main = async () => {
 
   // Load Express middleware
   app.use(express.json());
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    })
+  );
   app.use(
     session({
       name: `${process.env.SESSION_NAME}`,
@@ -54,7 +59,10 @@ const main = async () => {
   });
 
   // Load Apollo middleware
-  apolloServer.applyMiddleware({ app });
+  apolloServer.applyMiddleware({
+    app,
+    cors: false,
+  });
 
   // Start the server
   app.listen(process.env.SERVER_PORT, () => {

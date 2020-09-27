@@ -21,6 +21,8 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { grey } from '@ant-design/colors';
+import gql from 'graphql-tag';
+import { useMutation } from 'urql';
 import Container from '../../shared/components/Container';
 
 const { Content } = Layout;
@@ -73,18 +75,37 @@ const formValidationRules = {
   ],
 };
 
+const REGISTER_MUTATION = gql`
+  mutation Register($email: String!, $password: String!, $username: String!) {
+    register(
+      options: { email: $email, password: $password, username: $username }
+    ) {
+      uid
+      username
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 interface Props {}
 
 const Signup = (props: Props): ReactElement => {
+  const [res, registerMut] = useMutation(REGISTER_MUTATION);
   const [form] = Form.useForm();
-  const [isFormSubmitting, setIsFormSubmitting] = useState(false);
-
   const breakpoint = useBreakpoint();
 
-  const onFinish = (values) => {
-    setIsFormSubmitting(true);
+  const register = async formValues => {
+    const { email, password, displayName: username } = formValues;
 
-    console.log({ values });
+    const resp = registerMut({
+      email,
+      password,
+      username,
+    });
+
+    return resp;
   };
 
   return (
@@ -169,7 +190,7 @@ const Signup = (props: Props): ReactElement => {
                   form={form}
                   initialValues={{}}
                   layout="vertical"
-                  onFinish={onFinish}>
+                  onFinish={register}>
                   <Space
                     direction="vertical"
                     size="small"
@@ -179,7 +200,7 @@ const Signup = (props: Props): ReactElement => {
                       label="Display name"
                       rules={formValidationRules.displayName}>
                       <Input
-                        disabled={isFormSubmitting}
+                        disabled={res.fetching}
                         prefix={<UserOutlined style={formIconStyle} />}></Input>
                     </Form.Item>
                     <Form.Item
@@ -187,7 +208,7 @@ const Signup = (props: Props): ReactElement => {
                       label="Email"
                       rules={formValidationRules.email}>
                       <Input
-                        disabled={isFormSubmitting}
+                        disabled={res.fetching}
                         prefix={<MailOutlined style={formIconStyle} />}
                         type="email"></Input>
                     </Form.Item>
@@ -196,7 +217,7 @@ const Signup = (props: Props): ReactElement => {
                       name="password"
                       rules={formValidationRules.password}>
                       <Input.Password
-                        disabled={isFormSubmitting}
+                        disabled={res.fetching}
                         prefix={<LockOutlined style={formIconStyle} />}
                         type="password"></Input.Password>
                     </Form.Item>
@@ -214,10 +235,10 @@ const Signup = (props: Props): ReactElement => {
                           Boolean(
                             form
                               .getFieldsError()
-                              .filter(({ errors }) => errors.length).length,
+                              .filter(({ errors }) => errors.length).length
                           )
                         }
-                        loading={isFormSubmitting}>
+                        loading={res.fetching}>
                         Sign up
                       </Button>
                     )}
