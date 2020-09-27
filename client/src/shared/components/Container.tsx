@@ -6,6 +6,7 @@ interface Props {
 
 const Container = ({ children }: Props): ReactElement => {
   const containerStyles = {
+    width: '100%',
     maxWidth: '60rem',
     margin: '0 auto',
     padding: '1.5rem',

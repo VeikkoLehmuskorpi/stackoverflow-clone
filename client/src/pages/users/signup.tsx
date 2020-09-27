@@ -1,4 +1,6 @@
-import React, { ReactElement } from 'react';
+import React, { useEffect, ReactElement } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import {
   Layout,
   Button,
@@ -85,9 +87,15 @@ interface FormValues {
 interface Props {}
 
 const Signup = (props: Props): ReactElement => {
+  const router = useRouter();
   const [res, registerMut] = useRegisterMutation();
   const [form] = Form.useForm();
   const breakpoint = useBreakpoint();
+
+  useEffect(() => {
+    // Prefetch the login page
+    router.prefetch('/users/login');
+  }, []);
 
   const register = async (formValues: FormValues) => {
     const { username, email, password } = formValues;
@@ -106,8 +114,10 @@ const Signup = (props: Props): ReactElement => {
       }
       // TODO: Something else went wrong, handle it in the UI
     } else if (resp.data?.register.uid) {
-      // Registration was successful, navigate user to the login page
+      // Registration was successful, redirect user to the login page
       console.log(resp.data.register);
+
+      router.push('/users/login');
     }
 
     return resp;
@@ -131,70 +141,77 @@ const Signup = (props: Props): ReactElement => {
                 flexDirection: 'column',
                 justifyContent: 'center',
               }}>
-              <Title
-                level={2}
-                style={!breakpoint.md ? { textAlign: 'center' } : {}}>
-                Join the Stack Overflow community
-              </Title>
-              {breakpoint.md && (
-                <React.Fragment>
-                  <ul
-                    style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      margin: 0,
-                      marginTop: '1rem',
-                    }}>
-                    <Space direction="vertical" size="large">
-                      <li>
-                        <Space>
-                          <QuestionCircleTwoTone
-                            style={{ fontSize: '1.5rem' }}
-                            twoToneColor="#0095ff"
-                          />
-                          Get unstuck — ask a question
-                        </Space>
-                      </li>
-                      <li>
-                        <Space>
-                          <LikeTwoTone
-                            style={{ fontSize: '1.5rem' }}
-                            twoToneColor="#0095ff"
-                          />
-                          Unlock new privileges like voting and commenting
-                        </Space>
-                      </li>
-                      <li>
-                        <Space>
-                          <TagsTwoTone
-                            style={{ fontSize: '1.5rem' }}
-                            twoToneColor="#0095ff"
-                          />
-                          Save your favorite tags, filters, and jobs
-                        </Space>
-                      </li>
-                      <li>
-                        <Space>
-                          <TrophyTwoTone
-                            style={{ fontSize: '1.5rem' }}
-                            twoToneColor="#0095ff"
-                          />
-                          Earn reputation and badges
-                        </Space>
-                      </li>
-                    </Space>
-                  </ul>
-                  <p style={{ marginTop: '1.5rem', color: grey[5] }}>
-                    Use the power of Stack Overflow inside your organization.
-                    Try a <a>free trial of Stack Overflow for Teams</a>.
-                  </p>
-                </React.Fragment>
-              )}
+              <section>
+                <Title
+                  level={2}
+                  style={!breakpoint.md ? { textAlign: 'center' } : {}}>
+                  Join the Stack Overflow community
+                </Title>
+                {breakpoint.md && (
+                  <React.Fragment>
+                    <ul
+                      style={{
+                        listStyle: 'none',
+                        padding: 0,
+                        margin: 0,
+                        marginTop: '1rem',
+                      }}>
+                      <Space direction="vertical" size="large">
+                        <li>
+                          <Space>
+                            <QuestionCircleTwoTone
+                              style={{ fontSize: '1.5rem' }}
+                              twoToneColor="#0095ff"
+                            />
+                            Get unstuck — ask a question
+                          </Space>
+                        </li>
+                        <li>
+                          <Space>
+                            <LikeTwoTone
+                              style={{ fontSize: '1.5rem' }}
+                              twoToneColor="#0095ff"
+                            />
+                            Unlock new privileges like voting and commenting
+                          </Space>
+                        </li>
+                        <li>
+                          <Space>
+                            <TagsTwoTone
+                              style={{ fontSize: '1.5rem' }}
+                              twoToneColor="#0095ff"
+                            />
+                            Save your favorite tags, filters, and jobs
+                          </Space>
+                        </li>
+                        <li>
+                          <Space>
+                            <TrophyTwoTone
+                              style={{ fontSize: '1.5rem' }}
+                              twoToneColor="#0095ff"
+                            />
+                            Earn reputation and badges
+                          </Space>
+                        </li>
+                      </Space>
+                    </ul>
+                    <p style={{ marginTop: '1.5rem', color: grey[5] }}>
+                      Use the power of Stack Overflow inside your organization.
+                      Try a <a>free trial of Stack Overflow for Teams</a>.
+                    </p>
+                  </React.Fragment>
+                )}
+              </section>
             </Col>
             <Col
               xs={{ span: 24 }}
               md={{ span: 12 }}
-              style={{ display: 'flex', justifyContent: 'center' }}>
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Card bordered style={{ maxWidth: '25rem' }}>
                 <Form
                   form={form}
@@ -260,6 +277,24 @@ const Signup = (props: Props): ReactElement => {
                   <a>cookie policy</a>
                 </p>
               </Card>
+              <section>
+                <Space
+                  direction="vertical"
+                  style={{
+                    marginTop: '1rem',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                  }}>
+                  <p style={{ margin: 0 }}>
+                    Already have an account?{' '}
+                    <Link href="/users/login">Log in</Link>
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    Are you an employer? <a>Sign up on Talent</a>
+                  </p>
+                </Space>
+              </section>
             </Col>
           </Row>
         </Container>
