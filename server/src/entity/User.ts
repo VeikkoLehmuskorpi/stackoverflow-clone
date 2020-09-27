@@ -45,17 +45,17 @@ export class User {
   @Column('varchar', { nullable: false, unique: true })
   email: string;
 
-  @Field()
+  @Field({ nullable: true })
+  @IsOptional()
   @Length(1)
   @IsString()
-  @IsOptional()
   @Column('varchar', { nullable: true })
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
+  @IsOptional()
   @Length(1)
   @IsString()
-  @IsOptional()
   @Column('varchar', { nullable: true })
   lastName: string;
 
