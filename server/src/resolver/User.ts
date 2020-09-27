@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Ctx, Arg, Field, InputType } from 'type-graphql';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
-import { validateInputs } from '../utils';
+import { generateUniqConstrErr, validateInputs } from '../utils';
 import { UserInputError, ApolloError } from 'apollo-server-express';
 import argon2 from 'argon2';
 
@@ -59,9 +59,20 @@ export class UserResolver {
       throw new ApolloError('Something went wrong');
     }
 
-    // TODO: Add validation for cases where the user is trying to register with
-    // an email/username that's already in use
-    return orm.manager.save(newUser);
+    const userRepo = orm.getRepository(User);
+    const createdUser = userRepo.create({ ...newUser });
+
+    try {
+      return await userRepo.save(createdUser);
+    } catch (err) {
+      if (err.code === '23505') {
+        throw new UserInputError('Validation error!', {
+          errors: generateUniqConstrErr(err.detail),
+        });
+      }
+
+      throw new ApolloError('Something went wrong');
+    }
   }
 
   @Mutation(() => User)

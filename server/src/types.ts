@@ -6,3 +6,10 @@ export interface MyContext {
   req: Request & { session?: Express.Session };
   res: Response;
 }
+
+export interface UniqueConstraintErr {
+  property: String;
+  constraints: {
+    unique: String;
+  };
+}

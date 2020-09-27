@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import {
   Layout,
   Button,
@@ -21,9 +21,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { grey } from '@ant-design/colors';
-import gql from 'graphql-tag';
-import { useMutation } from 'urql';
+import { useRegisterMutation } from '../../generated/graphql';
 import Container from '../../shared/components/Container';
+import { toFormErrorMap } from '../../shared/util';
+import CustomLayout from '../../shared/components/Layout';
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -34,18 +35,18 @@ const formIconStyle = {
 };
 
 const formValidationRules = {
-  displayName: [
+  username: [
     {
       required: true,
-      message: 'Display name cannot be empty.',
+      message: 'Username cannot be empty.',
     },
     {
       max: 64,
-      message: 'Display name cannot be more than 64 characters.',
+      message: 'Username must be shorter than or equal to 64 characters.',
     },
     {
       pattern: /^\S+$/g,
-      message: 'Display name cannot contain spaces.',
+      message: 'Username cannot contain spaces.',
     },
   ],
   email: [
@@ -65,7 +66,7 @@ const formValidationRules = {
     },
     {
       min: 10,
-      message: 'Password cannot be less than 10 characters.',
+      message: 'Password must be longer than or equal to 10 characters.',
     },
     {
       pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{0,}$/g,
@@ -75,42 +76,51 @@ const formValidationRules = {
   ],
 };
 
-const REGISTER_MUTATION = gql`
-  mutation Register($email: String!, $password: String!, $username: String!) {
-    register(
-      options: { email: $email, password: $password, username: $username }
-    ) {
-      uid
-      username
-      email
-      createdAt
-      updatedAt
-    }
-  }
-`;
+interface FormValues {
+  username: string;
+  email: string;
+  password: string;
+}
 
 interface Props {}
 
 const Signup = (props: Props): ReactElement => {
-  const [res, registerMut] = useMutation(REGISTER_MUTATION);
+  const [res, registerMut] = useRegisterMutation();
   const [form] = Form.useForm();
   const breakpoint = useBreakpoint();
 
-  const register = async formValues => {
-    const { email, password, displayName: username } = formValues;
+  const register = async (formValues: FormValues) => {
+    const { username, email, password } = formValues;
 
-    const resp = registerMut({
+    const resp = await registerMut({
       email,
       password,
       username,
     });
 
+    if (resp.error) {
+      if (resp.error?.message.includes('Validation error')) {
+        form.setFields(
+          toFormErrorMap(resp.error.graphQLErrors[0].extensions?.errors)
+        );
+      }
+      // TODO: Something else went wrong, handle it in the UI
+    } else if (resp.data?.register.uid) {
+      // Registration was successful, navigate user to the login page
+      console.log(resp.data.register);
+    }
+
     return resp;
   };
 
   return (
-    <Layout>
-      <Content>
+    <CustomLayout>
+      <Content
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <Container>
           <Row align="middle" gutter={[8, 8]}>
             <Col
@@ -123,7 +133,7 @@ const Signup = (props: Props): ReactElement => {
               }}>
               <Title
                 level={2}
-                style={!breakpoint.md && { textAlign: 'center' }}>
+                style={!breakpoint.md ? { textAlign: 'center' } : {}}>
                 Join the Stack Overflow community
               </Title>
               {breakpoint.md && (
@@ -196,9 +206,9 @@ const Signup = (props: Props): ReactElement => {
                     size="small"
                     style={{ width: '100%' }}>
                     <Form.Item
-                      name="displayName"
-                      label="Display name"
-                      rules={formValidationRules.displayName}>
+                      name="username"
+                      label="Username"
+                      rules={formValidationRules.username}>
                       <Input
                         disabled={res.fetching}
                         prefix={<UserOutlined style={formIconStyle} />}></Input>
@@ -254,7 +264,7 @@ const Signup = (props: Props): ReactElement => {
           </Row>
         </Container>
       </Content>
-    </Layout>
+    </CustomLayout>
   );
 };
 
