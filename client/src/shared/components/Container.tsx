@@ -8,7 +8,7 @@ interface Props {
 const Container = (props: Props): ReactElement => {
   const containerStyles = {
     width: '100%',
-    maxWidth: '60rem',
+    maxWidth: '80rem',
     margin: '0 auto',
     padding: props.usePadding ? '1.5rem' : '0',
   };
