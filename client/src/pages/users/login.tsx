@@ -58,7 +58,7 @@ const login = (props: Props) => {
   };
 
   return (
-    <CustomLayout>
+    <CustomLayout title="Login - Stack Overflow">
       <Content
         style={{
           display: 'flex',

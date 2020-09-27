@@ -2,17 +2,20 @@ import React, { ReactElement, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
+  usePadding?: boolean;
 }
 
-const Container = ({ children }: Props): ReactElement => {
+const Container = (props: Props): ReactElement => {
   const containerStyles = {
     width: '100%',
     maxWidth: '60rem',
     margin: '0 auto',
-    padding: '1.5rem',
+    padding: props.usePadding ? '1.5rem' : '0',
   };
 
-  return <div style={containerStyles}>{children}</div>;
+  return <div style={containerStyles}>{props.children}</div>;
 };
+
+Container.defaultProps = { usePadding: true };
 
 export default Container;

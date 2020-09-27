@@ -124,7 +124,7 @@ const Signup = (props: Props): ReactElement => {
   };
 
   return (
-    <CustomLayout>
+    <CustomLayout title="Sign up - Stack Overflow">
       <Content
         style={{
           display: 'flex',

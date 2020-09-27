@@ -1,15 +1,10 @@
-import Head from 'next/head';
+import CustomLayout from '../shared/components/Layout';
 
 const Home = () => {
   return (
-    <div>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+    <CustomLayout title="Stack Overflow - Where Developers Learn, Share, & Build Careers">
       <h1>hello world</h1>
-    </div>
+    </CustomLayout>
   );
 };
 
