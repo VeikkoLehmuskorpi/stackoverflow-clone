@@ -1,6 +1,6 @@
 mutation Login($options: UserLoginInput!) {
   login(options: $options) {
-    uid
+    id
     username
     email
     firstName

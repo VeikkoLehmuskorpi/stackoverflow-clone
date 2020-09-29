@@ -13,14 +13,14 @@ export class PostResolver {
 
   @Query(() => Post, { nullable: true })
   async post(
-    @Arg('uid', () => String) uid: string,
+    @Arg('id', () => String) id: string,
     @Ctx()
     { orm }: MyContext
   ): Promise<Post> {
-    const post = await orm.manager.findOne(Post, { uid });
+    const post = await orm.manager.findOne(Post, { id });
 
     if (!post) {
-      throw new Error(`Post with the uid: ${uid} does not exist!`);
+      throw new Error(`Post with the id: ${id} does not exist!`);
     }
 
     return post;
@@ -45,15 +45,15 @@ export class PostResolver {
 
   @Mutation(() => Post)
   async updatePost(
-    @Arg('uid', () => String) uid: string,
+    @Arg('id', () => String) id: string,
     @Arg('title', () => String) title: string,
     @Arg('content', () => String) content: string,
     @Ctx() { orm }: MyContext
   ): Promise<Post> {
-    const post = await orm.manager.findOne(Post, { uid });
+    const post = await orm.manager.findOne(Post, { id });
 
     if (!post) {
-      throw new Error(`Post with the uid: ${uid} does not exist!`);
+      throw new Error(`Post with the id: ${id} does not exist!`);
     }
 
     Object.assign(post, { title, content });
@@ -69,17 +69,17 @@ export class PostResolver {
 
   @Mutation(() => Boolean)
   async deletePost(
-    @Arg('uid', () => String) uid: string,
+    @Arg('id', () => String) id: string,
     @Ctx() { orm }: MyContext
   ): Promise<Boolean> {
-    const post = await orm.manager.findOne(Post, { uid });
+    const post = await orm.manager.findOne(Post, { id });
 
     if (!post) {
-      throw new Error(`Post with the uid: ${uid} does not exist!`);
+      throw new Error(`Post with the id: ${id} does not exist!`);
     }
 
     try {
-      await orm.manager.delete(Post, { uid });
+      await orm.manager.delete(Post, { id });
 
       return true;
     } catch (err) {

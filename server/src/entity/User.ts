@@ -20,11 +20,11 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  pk: number;
 
   @Field()
   @Column('varchar', { length: 11, nullable: false, unique: true })
-  uid: string;
+  id: string;
 
   @Field()
   @Length(1, 64)
@@ -69,6 +69,6 @@ export class User {
 
   @BeforeInsert()
   addUid() {
-    this.uid = generateUid();
+    this.id = generateUid();
   }
 }

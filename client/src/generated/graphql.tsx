@@ -23,12 +23,12 @@ export type Query = {
 
 
 export type QueryPostArgs = {
-  uid: Scalars['String'];
+  id: Scalars['String'];
 };
 
 export type Post = {
   __typename?: 'Post';
-  uid: Scalars['String'];
+  id: Scalars['String'];
   title: Scalars['String'];
   content: Scalars['String'];
   views: Scalars['Float'];
@@ -41,7 +41,7 @@ export type Post = {
 
 export type User = {
   __typename?: 'User';
-  uid: Scalars['String'];
+  id: Scalars['String'];
   username: Scalars['String'];
   email: Scalars['String'];
   firstName?: Maybe<Scalars['String']>;
@@ -69,12 +69,12 @@ export type MutationCreatePostArgs = {
 export type MutationUpdatePostArgs = {
   content: Scalars['String'];
   title: Scalars['String'];
-  uid: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
 export type MutationDeletePostArgs = {
-  uid: Scalars['String'];
+  id: Scalars['String'];
 };
 
 
@@ -107,7 +107,7 @@ export type LoginMutation = (
   { __typename?: 'Mutation' }
   & { login: (
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'username' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'>
+    & Pick<User, 'id' | 'username' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'>
   ) }
 );
 
@@ -122,7 +122,7 @@ export type RegisterMutation = (
   { __typename?: 'Mutation' }
   & { register: (
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'username' | 'email' | 'createdAt' | 'updatedAt'>
+    & Pick<User, 'id' | 'username' | 'email' | 'createdAt' | 'updatedAt'>
   ) }
 );
 
@@ -133,7 +133,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'uid' | 'username' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'>
+    & Pick<User, 'id' | 'username' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'>
   )> }
 );
 
@@ -141,7 +141,7 @@ export type MeQuery = (
 export const LoginDocument = gql`
     mutation Login($options: UserLoginInput!) {
   login(options: $options) {
-    uid
+    id
     username
     email
     firstName
@@ -158,7 +158,7 @@ export function useLoginMutation() {
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!, $username: String!) {
   register(options: {email: $email, password: $password, username: $username}) {
-    uid
+    id
     username
     email
     createdAt
@@ -173,7 +173,7 @@ export function useRegisterMutation() {
 export const MeDocument = gql`
     query Me {
   me {
-    uid
+    id
     username
     email
     firstName

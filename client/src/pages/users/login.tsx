@@ -50,7 +50,7 @@ const login = (props: Props) => {
       form.setFields([
         { name: 'email', errors: ['The email or password is incorrect.'] },
       ]);
-    } else if (resp.data?.login.uid) {
+    } else if (resp.data?.login.id) {
       router.push('/');
     }
 

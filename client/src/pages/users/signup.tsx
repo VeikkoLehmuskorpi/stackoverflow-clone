@@ -113,7 +113,7 @@ const Signup = (props: Props): ReactElement => {
         );
       }
       // TODO: Something else went wrong, handle it in the UI
-    } else if (resp.data?.register.uid) {
+    } else if (resp.data?.register.id) {
       // Registration was successful, redirect user to the login page
       console.log(resp.data.register);
 

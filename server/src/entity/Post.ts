@@ -14,11 +14,11 @@ import { generateUid } from '../utils';
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn('increment')
-  id: number;
+  pk: number;
 
   @Field()
   @Column('varchar', { length: 11, nullable: false, unique: true })
-  uid: string;
+  id: string;
 
   @Field()
   @IsNotEmpty()
@@ -54,6 +54,6 @@ export class Post {
 
   @BeforeInsert()
   addUid() {
-    this.uid = generateUid();
+    this.id = generateUid();
   }
 }

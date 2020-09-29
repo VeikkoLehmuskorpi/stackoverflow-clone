@@ -43,7 +43,7 @@ const Navbar = (props: Props) => {
     } else {
       return (
         <Space size="middle">
-          <Link href={`/users/${res.data.me.uid}/${res.data.me.username}`}>
+          <Link href={`/users/${res.data.me.id}/${res.data.me.username}`}>
             <Tooltip title={res.data.me.username} arrowPointAtCenter>
               <UserOutlined
                 style={{ fontSize: '1.25rem', cursor: 'pointer' }}

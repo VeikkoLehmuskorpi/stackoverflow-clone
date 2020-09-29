@@ -107,7 +107,7 @@ export class UserResolver {
       throw new UserInputError('Invalid credentials');
     } else {
       // Store user in the session
-      req.session!.userId = user.uid;
+      req.session!.userId = user.id;
 
       return user;
     }
@@ -116,7 +116,7 @@ export class UserResolver {
   @Query(() => User, { nullable: true })
   async me(@Ctx() { orm, req }: MyContext): Promise<User | undefined> {
     const user = await orm.manager.findOne(User, {
-      uid: req.session?.userId,
+      id: req.session?.userId,
     });
 
     return user;
