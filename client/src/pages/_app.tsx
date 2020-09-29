@@ -1,5 +1,5 @@
 import 'antd/dist/antd.css';
-import { Provider, createClient } from 'urql';
+import { createClient, Provider } from 'urql';
 
 const client = createClient({
   url:

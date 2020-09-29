@@ -1,12 +1,12 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import { Layout, Card, Form, Input, Button, Row, Col } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useLoginMutation } from 'src/generated/graphql';
-import CustomLayout from 'src/components/Layout';
-import Container from 'src/components/Container';
+import { Button, Card, Col, Form, Input, Layout, Row } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import soIcon from 'public/so-icon.svg';
+import React from 'react';
+import Container from 'src/components/Container';
+import CustomLayout from 'src/components/Layout';
+import { useLoginMutation } from 'src/generated/graphql';
 
 const { Content } = Layout;
 

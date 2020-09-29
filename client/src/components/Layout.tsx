@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
-import Head from 'next/head';
 import { Layout } from 'antd';
+import Head from 'next/head';
+import React, { ReactNode } from 'react';
 import Navbar from 'src/components/Navbar';
 
 interface Props {

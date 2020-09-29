@@ -1,18 +1,4 @@
-import React, { useEffect, ReactElement } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import {
-  Layout,
-  Button,
-  Form,
-  Input,
-  Space,
-  Card,
-  Row,
-  Col,
-  Typography,
-  Grid,
-} from 'antd';
+import { grey } from '@ant-design/colors';
 import {
   LikeTwoTone,
   LockOutlined,
@@ -22,11 +8,25 @@ import {
   TrophyTwoTone,
   UserOutlined,
 } from '@ant-design/icons';
-import { grey } from '@ant-design/colors';
-import { useRegisterMutation } from 'src/generated/graphql';
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Grid,
+  Input,
+  Layout,
+  Row,
+  Space,
+  Typography,
+} from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React, { ReactElement, useEffect } from 'react';
 import Container from 'src/components/Container';
-import { toFormErrorMap } from 'src/utils/toFormErrorMap';
 import CustomLayout from 'src/components/Layout';
+import { useRegisterMutation } from 'src/generated/graphql';
+import { toFormErrorMap } from 'src/utils/toFormErrorMap';
 
 const { Content } = Layout;
 const { Title } = Typography;
