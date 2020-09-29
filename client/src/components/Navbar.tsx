@@ -83,11 +83,10 @@ const Navbar = (props: Props) => {
       style={{
         background: '#fafafa',
         color: grey[3],
-        padding: '0.25rem 0.5rem',
         borderTop: '3px solid #f48024',
         boxShadow: '0px 1px 6px -3px rgba(12, 13, 14, 0.15) ',
       }}>
-      <Container usePadding={false}>
+      <Container paddingVertical="0.2rem" paddingHorizontal="0.9rem">
         <div
           style={{
             display: 'flex',
@@ -97,10 +96,21 @@ const Navbar = (props: Props) => {
           <section style={{ display: 'flex', flex: '1' }}>
             <Space size="middle">
               <Link href="/">
-                <img
-                  src={breakpoints.md ? soLogo : soIcon}
-                  alt="Stack Overflow Logo"
-                  style={{ height: '2.5rem', cursor: 'pointer' }}></img>
+                {breakpoints.md ? (
+                  <img
+                    src={soLogo}
+                    alt="Stack Overflow Logo"
+                    style={{ height: '2.5rem', cursor: 'pointer' }}></img>
+                ) : (
+                  <img
+                    src={soIcon}
+                    alt="Stack Overflow Logo (Icon)"
+                    style={{
+                      height: '2.4rem',
+                      cursor: 'pointer',
+                      margin: '1px 0 0 2px',
+                    }}></img>
+                )}
               </Link>
               <Space size="large" style={{ marginRight: '1rem' }}>
                 <a
@@ -116,7 +126,10 @@ const Navbar = (props: Props) => {
               <Input
                 placeholder="Search..."
                 prefix={<SearchOutlined style={{ opacity: '0.3' }} />}
-                style={{ margin: '0.35rem' }}></Input>
+                style={{
+                  height: '2rem',
+                  alignSelf: 'center',
+                }}></Input>
             ) : (
               <div
                 style={{
