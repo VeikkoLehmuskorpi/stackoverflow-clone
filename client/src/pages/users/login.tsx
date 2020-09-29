@@ -1,5 +1,6 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Form, Input, Layout, Row } from 'antd';
+import { withUrqlClient } from 'next-urql';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import soIcon from 'public/so-icon.svg';
@@ -7,6 +8,7 @@ import React from 'react';
 import Container from 'src/components/Container';
 import CustomLayout from 'src/components/Layout';
 import { useLoginMutation } from 'src/generated/graphql';
+import { createUrqlClient } from 'src/utils/createUrqlClient';
 
 const { Content } = Layout;
 
@@ -36,7 +38,7 @@ interface FormValues {
 
 interface Props {}
 
-const login = (props: Props) => {
+const Login = (props: Props) => {
   const router = useRouter();
   const [res, loginMut] = useLoginMutation();
   const [form] = Form.useForm();
@@ -144,4 +146,4 @@ const login = (props: Props) => {
   );
 };
 
-export default login;
+export default withUrqlClient(createUrqlClient)(Login);

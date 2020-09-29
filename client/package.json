@@ -20,10 +20,13 @@
     "antd": "^4.6.5",
     "graphql": "^15.3.0",
     "graphql-tag": "^2.11.0",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "9.5.3",
     "next-images": "^1.5.0",
+    "next-urql": "^1.1.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-is": "^16.13.1",
     "urql": "^1.10.1"
   },
   "devDependencies": {

@@ -20,12 +20,14 @@ import {
   Space,
   Typography,
 } from 'antd';
+import { withUrqlClient } from 'next-urql';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { ReactElement, useEffect } from 'react';
 import Container from 'src/components/Container';
 import CustomLayout from 'src/components/Layout';
 import { useRegisterMutation } from 'src/generated/graphql';
+import { createUrqlClient } from 'src/utils/createUrqlClient';
 import { toFormErrorMap } from 'src/utils/toFormErrorMap';
 
 const { Content } = Layout;
@@ -303,4 +305,4 @@ const Signup = (props: Props): ReactElement => {
   );
 };
 
-export default Signup;
+export default withUrqlClient(createUrqlClient)(Signup);

@@ -14,13 +14,16 @@ import soLogo from 'public/so-logo.svg';
 import React from 'react';
 import Container from 'src/components/Container';
 import { useLogoutMutation, useMeQuery } from 'src/generated/graphql';
+import { isServer } from 'src/utils/isServer';
 
 const { useBreakpoint } = Grid;
 
 interface Props {}
 
 const Navbar = (props: Props) => {
-  const [currentUserRes] = useMeQuery();
+  const [currentUserRes] = useMeQuery({
+    pause: isServer(),
+  });
   const [logoutRes, logoutMut] = useLogoutMutation();
   const breakpoints = useBreakpoint();
 
@@ -34,8 +37,14 @@ const Navbar = (props: Props) => {
   };
 
   const renderUserSection = () => {
-    if (currentUserRes.fetching) {
-    } else if (!currentUserRes.data?.me) {
+    if (currentUserRes.fetching) return null;
+
+    // For some reason, this needs to be explicitly set in the case of the
+    // navbar being server-side rendered.
+    // TODO: Figure out what's really causing the above mentioned issue
+    if (!currentUserRes.data) return null;
+
+    if (!currentUserRes.data?.me) {
       return (
         <Space style={{ display: 'flex', alignItems: 'center' }}>
           <Link href="/users/login">
@@ -151,7 +160,7 @@ const Navbar = (props: Props) => {
             )}
           </section>
 
-          <section style={{ marginLeft: '0.5rem' }}>
+          <section id="culprit" style={{ marginLeft: '0.5rem' }}>
             {renderUserSection()}
           </section>
         </div>

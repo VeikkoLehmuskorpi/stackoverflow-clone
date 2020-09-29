@@ -1,0 +1,10 @@
+fragment Post on Post {
+  id
+  title
+  content
+  views
+  isEdited
+  isPublished
+  createdAt
+  updatedAt
+}
