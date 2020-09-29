@@ -13,23 +13,29 @@ import soIcon from 'public/so-icon.svg';
 import soLogo from 'public/so-logo.svg';
 import React from 'react';
 import Container from 'src/components/Container';
-import { useMeQuery } from 'src/generated/graphql';
+import { useLogoutMutation, useMeQuery } from 'src/generated/graphql';
 
 const { useBreakpoint } = Grid;
 
 interface Props {}
 
 const Navbar = (props: Props) => {
-  const [res] = useMeQuery();
+  const [currentUserRes] = useMeQuery();
+  const [logoutRes, logoutMut] = useLogoutMutation();
   const breakpoints = useBreakpoint();
 
-  const logout = () => {
-    // TODO: Handle user logging out
+  const logout = async () => {
+    const isLogoutSuccessful = await logoutMut();
+
+    if (!isLogoutSuccessful) {
+      // TODO: Handle user logout errors
+      console.error(logoutRes);
+    }
   };
 
   const renderUserSection = () => {
-    if (res.fetching) {
-    } else if (!res.data?.me) {
+    if (currentUserRes.fetching) {
+    } else if (!currentUserRes.data?.me) {
       return (
         <Space style={{ display: 'flex', alignItems: 'center' }}>
           <Link href="/users/login">
@@ -42,34 +48,30 @@ const Navbar = (props: Props) => {
       );
     } else {
       return (
-        <Space size="middle">
-          <Link href={`/users/${res.data.me.id}/${res.data.me.username}`}>
-            <Tooltip title={res.data.me.username} arrowPointAtCenter>
-              <UserOutlined
-                style={{ fontSize: '1.25rem', cursor: 'pointer' }}
-              />
+        <Space>
+          <Link
+            href={`/users/${currentUserRes.data.me.id}/${currentUserRes.data.me.username}`}>
+            <Tooltip title={currentUserRes.data.me.username} arrowPointAtCenter>
+              <Button shape="circle" icon={<UserOutlined />}></Button>
             </Tooltip>
           </Link>
           <Tooltip title="Recent inbox messages" arrowPointAtCenter>
-            <InboxOutlined style={{ fontSize: '1.25rem', cursor: 'pointer' }} />
+            <Button shape="circle" icon={<InboxOutlined />}></Button>
           </Tooltip>
           <Tooltip
             title="Recent achievements: reputation, badges, and privileges earned"
             placement="topRight">
-            <TrophyOutlined
-              style={{ fontSize: '1.25rem', cursor: 'pointer' }}
-            />
+            <Button shape="circle" icon={<TrophyOutlined />}></Button>
           </Tooltip>
           <Tooltip title="Help Center and other resources" placement="topRight">
-            <QuestionCircleOutlined
-              style={{ fontSize: '1.25rem', cursor: 'pointer' }}
-            />
+            <Button shape="circle" icon={<QuestionCircleOutlined />}></Button>
           </Tooltip>
           <Tooltip title="Logout" placement="topRight">
-            <LogoutOutlined
+            <Button
+              shape="circle"
               onClick={logout}
-              style={{ fontSize: '1.25rem', cursor: 'pointer' }}
-            />
+              loading={logoutRes.fetching}
+              icon={<LogoutOutlined />}></Button>
           </Tooltip>
         </Space>
       );

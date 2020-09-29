@@ -121,4 +121,22 @@ export class UserResolver {
 
     return user;
   }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: MyContext): Promise<Boolean> {
+    return new Promise(resolve =>
+      req.session?.destroy(err => {
+        if (err) {
+          console.error(err);
+          resolve(false);
+          return;
+        }
+
+        // Clear the session cookie only if the session was successfully
+        // destroyed
+        res.clearCookie(`${process.env.SESSION_NAME}`);
+        resolve(true);
+      })
+    );
+  }
 }

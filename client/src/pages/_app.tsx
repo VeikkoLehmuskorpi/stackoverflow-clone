@@ -34,6 +34,15 @@ const client = createClient({
               return data;
             });
           },
+          logout: (_result, _args, cache, _info) => {
+            cache.updateQuery({ query: MeDocument }, data => {
+              if (data !== null) {
+                data.me = null;
+              }
+
+              return data;
+            });
+          },
         },
       },
     }),
