@@ -1,19 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { Row, Col, Button, Space, Grid, Input } from 'antd';
+import { Button, Space, Grid, Input } from 'antd';
 import { grey } from '@ant-design/colors';
-import Container from './Container';
-import soLogo from '../../../public/so-logo.svg';
-import soIcon from '../../../public/so-icon.svg';
+import Container from 'src/components/Container';
+import soLogo from 'public/so-logo.svg';
+import soIcon from 'public/so-icon.svg';
 import { SearchOutlined } from '@ant-design/icons';
 
 const { useBreakpoint } = Grid;
-
-const linkStyle = {
-  color: grey[5],
-  whiteSpace: 'nowrap',
-};
 
 interface Props {}
 
@@ -44,15 +39,6 @@ const Navbar = (props: Props) => {
                   style={{ height: '2.5rem', cursor: 'pointer' }}></img>
               </Link>
               <Space size="large" style={{ marginRight: '1rem' }}>
-                {/* {breakpoints.md && (
-                  <a
-                    style={{
-                      color: grey[5],
-                      whiteSpace: 'nowrap',
-                    }}>
-                    About
-                  </a>
-                )} */}
                 <a
                   style={{
                     color: grey[5],
@@ -60,15 +46,6 @@ const Navbar = (props: Props) => {
                   }}>
                   Products
                 </a>
-                {/* {breakpoints.md && (
-                  <a
-                    style={{
-                      color: grey[5],
-                      whiteSpace: 'nowrap',
-                    }}>
-                    For Teams
-                  </a>
-                )} */}
               </Space>
             </Space>
             {breakpoints.sm && (

@@ -3,10 +3,10 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Layout, Card, Form, Input, Button, Row, Col } from 'antd';
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { useLoginMutation } from '../../generated/graphql';
-import CustomLayout from '../../shared/components/Layout';
-import Container from '../../shared/components/Container';
-import soIcon from '../../../public/so-icon.svg';
+import { useLoginMutation } from 'src/generated/graphql';
+import CustomLayout from 'src/components/Layout';
+import Container from 'src/components/Container';
+import soIcon from 'public/so-icon.svg';
 
 const { Content } = Layout;
 

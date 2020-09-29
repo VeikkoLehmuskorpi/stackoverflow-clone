@@ -1,10 +1,12 @@
-import { FieldError, FormError } from './types';
+import { FieldError } from 'src/types';
+import { strToTitlecase } from 'src/utils/strToTitlecase';
 
-export const strToTitlecase = (str: string): string => {
-  return `${str.charAt(0).toLocaleUpperCase()}${str.slice(1, str.length)}`;
-};
+export interface FormError {
+  name: string;
+  errors: Array<string>;
+}
 
-export const formatFormErrorMsg = (str: string): string => {
+const formatFormErrorMsg = (str: string): string => {
   const titlecaseStr = strToTitlecase(str);
   const dotAppendedStr =
     titlecaseStr.charAt(titlecaseStr.length - 1) === '.'

@@ -1,4 +1,4 @@
-import CustomLayout from '../shared/components/Layout';
+import CustomLayout from 'src/components/Layout';
 
 const Home = () => {
   return (

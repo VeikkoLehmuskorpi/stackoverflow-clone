@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import Head from 'next/head';
 import { Layout } from 'antd';
-import Navbar from './Navbar';
+import Navbar from 'src/components/Navbar';
 
 interface Props {
   children: ReactNode;

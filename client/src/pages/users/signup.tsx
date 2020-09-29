@@ -23,10 +23,10 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { grey } from '@ant-design/colors';
-import { useRegisterMutation } from '../../generated/graphql';
-import Container from '../../shared/components/Container';
-import { toFormErrorMap } from '../../shared/util';
-import CustomLayout from '../../shared/components/Layout';
+import { useRegisterMutation } from 'src/generated/graphql';
+import Container from 'src/components/Container';
+import { toFormErrorMap } from 'src/utils/toFormErrorMap';
+import CustomLayout from 'src/components/Layout';
 
 const { Content } = Layout;
 const { Title } = Typography;

@@ -4,8 +4,3 @@ export interface FieldError {
     unique: string;
   };
 }
-
-export interface FormError {
-  name: string;
-  errors: Array<string>;
-}
