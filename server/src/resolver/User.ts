@@ -1,4 +1,12 @@
-import { Resolver, Mutation, Ctx, Arg, Field, InputType } from 'type-graphql';
+import {
+  Resolver,
+  Mutation,
+  Ctx,
+  Arg,
+  Field,
+  InputType,
+  Query,
+} from 'type-graphql';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
 import { generateUniqConstrErr, validateInputs } from '../utils';
@@ -103,5 +111,14 @@ export class UserResolver {
 
       return user;
     }
+  }
+
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { orm, req }: MyContext): Promise<User | undefined> {
+    const user = await orm.manager.findOne(User, {
+      uid: req.session?.userId,
+    });
+
+    return user;
   }
 }
