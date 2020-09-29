@@ -1,5 +1,8 @@
+import { cacheExchange } from '@urql/exchange-graphcache';
 import 'antd/dist/antd.css';
-import { createClient, Provider } from 'urql';
+import React from 'react';
+import { MeDocument } from 'src/generated/graphql';
+import { createClient, dedupExchange, fetchExchange, Provider } from 'urql';
 
 const client = createClient({
   url:
@@ -8,6 +11,34 @@ const client = createClient({
   fetchOptions: {
     credentials: 'include',
   },
+  exchanges: [
+    dedupExchange,
+    cacheExchange({
+      updates: {
+        Mutation: {
+          login: (result, _args, cache, _info) => {
+            cache.updateQuery({ query: MeDocument }, data => {
+              if (data !== null) {
+                data.me = result.login;
+              }
+
+              return data;
+            });
+          },
+          register: (result, _args, cache, _info) => {
+            cache.updateQuery({ query: MeDocument }, data => {
+              if (data !== null) {
+                data.me = result.register;
+              }
+
+              return data;
+            });
+          },
+        },
+      },
+    }),
+    fetchExchange,
+  ],
 });
 
 const MyApp = ({ Component, pageProps }) => {
