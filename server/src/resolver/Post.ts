@@ -1,8 +1,8 @@
 import { Resolver, Query, Ctx, Arg, Mutation } from 'type-graphql';
 import { UserInputError } from 'apollo-server-express';
-import { Post } from '../entity/Post';
-import { MyContext } from '../types';
-import { validateInputs } from '../utils/validateInputs';
+import { Post } from '~/entity/Post';
+import { MyContext } from '~/types';
+import { validateInputs } from '~/utils/validateInputs';
 
 @Resolver()
 export class PostResolver {

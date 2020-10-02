@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { APPLICATION_NAME, APPLICATION_NAME_URL_SAFE } from '../constants';
+import { APPLICATION_NAME, APPLICATION_NAME_URL_SAFE } from '~/constants';
 
 interface EmailFields {
   to: string;

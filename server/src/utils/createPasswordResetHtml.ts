@@ -1,4 +1,4 @@
-import { APPLICATION_NAME } from '../constants';
+import { APPLICATION_NAME } from '~/constants';
 
 interface PasswordResetOptions {
   email: string;

@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Field, ObjectType } from 'type-graphql';
-import { generateUid } from '../utils/generateUid';
+import { generateUid } from '~/utils/generateUid';
 import {
   Length,
   IsNotEmpty,

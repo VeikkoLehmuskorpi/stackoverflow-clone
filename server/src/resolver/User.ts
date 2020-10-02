@@ -7,22 +7,22 @@ import {
   InputType,
   Query,
 } from 'type-graphql';
-import { User } from '../entity/User';
-import { MyContext } from '../types';
-import { validateInputs } from '../utils/validateInputs';
-import { generateUniqConstrErr } from '../utils/generateUniqConstrErr';
+import { User } from '~/entity/User';
+import { MyContext } from '~/types';
+import { validateInputs } from '~/utils/validateInputs';
+import { generateUniqConstrErr } from '~/utils/generateUniqConstrErr';
 import { UserInputError, ApolloError } from 'apollo-server-express';
 import argon2 from 'argon2';
-import { sendEmail } from '../utils/sendEmail';
+import { sendEmail } from '~/utils/sendEmail';
 import {
   FORGOT_PASSWORD_PREFIX,
   PASSWORD_RESET_CHANGE_BASE_URL,
   PASSWORD_RESET_SUBJECT,
   USER_PREFIX,
-} from '../constants';
-import { createPasswordResetHtml } from '../utils/createPasswordResetHtml';
-import { formClientUrl } from '../utils/formClientUrl';
-import { generateToken } from '../utils/generateToken';
+} from '~/constants';
+import { createPasswordResetHtml } from '~/utils/createPasswordResetHtml';
+import { formClientUrl } from '~/utils/formClientUrl';
+import { generateToken } from '~/utils/generateToken';
 
 @InputType()
 class UserRegistrationInput {

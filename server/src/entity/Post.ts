@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { ObjectType, Field } from 'type-graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { generateUid } from '../utils/generateUid';
+import { generateUid } from '~/utils/generateUid';
 
 @ObjectType()
 @Entity()

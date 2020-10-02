@@ -17,6 +17,9 @@
     "migration:show": "typeorm migration:show",
     "entity:create": "typeorm entity:create"
   },
+  "_moduleAliases": {
+    "~": "build"
+  },
   "devDependencies": {
     "@types/connect-redis": "^0.0.14",
     "@types/dotenv-flow": "^3.1.0",
@@ -45,6 +48,7 @@
     "graphql": "^15.3.0",
     "helmet": "^4.1.0",
     "ioredis": "^4.17.3",
+    "module-alias": "^2.2.2",
     "nanoid": "^3.1.12",
     "nodemailer": "^6.4.13",
     "pg": "^8.3.3",

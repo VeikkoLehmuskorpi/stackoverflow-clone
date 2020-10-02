@@ -1,17 +1,18 @@
-import 'reflect-metadata';
-import * as dotenv from 'dotenv-flow';
-import { createConnection } from 'typeorm';
-import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
-import { buildSchema } from 'type-graphql';
+import connectRedis from 'connect-redis';
 import cors from 'cors';
+import * as dotenv from 'dotenv-flow';
+import express from 'express';
 import session from 'express-session';
 import Redis from 'ioredis';
-import connectRedis from 'connect-redis';
-import { PostResolver } from './resolver/Post';
-import { UserResolver } from './resolver/User';
-import { __prod__ } from './constants';
-import { MyContext } from './types';
+import 'module-alias/register';
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
+import { createConnection } from 'typeorm';
+import { __prod__ } from '~/constants';
+import { PostResolver } from '~/resolver/Post';
+import { UserResolver } from '~/resolver/User';
+import { MyContext } from '~/types';
 
 dotenv.config();
 
