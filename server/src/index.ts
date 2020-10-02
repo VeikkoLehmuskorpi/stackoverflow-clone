@@ -6,7 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { buildSchema } from 'type-graphql';
 import cors from 'cors';
 import session from 'express-session';
-import redis from 'redis';
+import Redis from 'ioredis';
 import connectRedis from 'connect-redis';
 import { PostResolver } from './resolver/Post';
 import { UserResolver } from './resolver/User';
@@ -24,7 +24,7 @@ const main = async () => {
 
   // Init redis
   const RedisStore = connectRedis(session);
-  const redisClient = redis.createClient();
+  const redis = new Redis();
 
   // Load Express middleware
   app.use(express.json());
@@ -37,7 +37,7 @@ const main = async () => {
   app.use(
     session({
       name: `${process.env.SESSION_NAME}`,
-      store: new RedisStore({ client: redisClient, disableTouch: true }),
+      store: new RedisStore({ client: redis, disableTouch: true }),
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10, // 10 years,
         httpOnly: true,
@@ -55,7 +55,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [PostResolver, UserResolver],
     }),
-    context: ({ req, res }): MyContext => ({ orm, req, res }),
+    context: ({ req, res }): MyContext => ({ orm, req, res, redis }),
   });
 
   // Load Apollo middleware
