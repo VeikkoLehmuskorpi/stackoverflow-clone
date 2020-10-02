@@ -9,7 +9,8 @@ import {
 } from 'type-graphql';
 import { User } from '../entity/User';
 import { MyContext } from '../types';
-import { generateUniqConstrErr, validateInputs } from '../utils';
+import { validateInputs } from '../utils/validateInputs';
+import { generateUniqConstrErr } from '../utils/generateUniqConstrErr';
 import { UserInputError, ApolloError } from 'apollo-server-express';
 import argon2 from 'argon2';
 
