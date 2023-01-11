@@ -29,7 +29,7 @@
     "@types/node": "^14.6.4",
     "@types/nodemailer": "^6.4.0",
     "@types/redis": "^2.8.27",
-    "class-validator": "^0.12.2",
+    "class-validator": "^0.14.0",
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.2",
     "morgan": "^1.10.0",
